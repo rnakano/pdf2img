@@ -2,8 +2,14 @@ require 'origami'
 
 include Origami
 
+unless ARGV.size == 2
+  puts "usage: bundle exec ruby pdf2img.rb <input.pdf> <output directory name>"
+  exit 1
+end
+
 pdf_filename = ARGV.shift
 output_dirname = ARGV.shift
+Dir.mkdir(output_dirname) unless File.exists?(output_dirname)
 
 pdf = PDF.read(pdf_filename, :verbosity => Parser::VERBOSE_QUIET)
 pdf.revisions.first.body.values.select{|i| 
